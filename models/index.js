@@ -1,45 +1,37 @@
-const { Sequelize } = require("sequelize");
-const sequelize = require("../config/database");
+const mongoose = require("mongoose");
 
-// ✅ Import models
-const User = require("./User"); 
+// Import models
+const User = require("./User");
 const Admin = require("./Admin");
 const Pharmacist = require("./Pharmacist");
 const Drug = require("./Drug");
 const Report = require("./Report");
+const Verification = require("./Verification");
 
+// Define relationships
+// Mongoose handles relationships differently than Sequelize. 
+// You can use `populate` to fetch related documents.
 
-// ✅ Define relationships AFTER all models are imported
-Admin.hasMany(Pharmacist, { foreignKey: "admin_id", onDelete: "CASCADE" });
-Pharmacist.belongsTo(Admin, { foreignKey: "admin_id" });
-
-Admin.hasMany(Drug, { foreignKey: "added_by", onDelete: "CASCADE" });
-Pharmacist.hasMany(Drug, { foreignKey: "added_by", onDelete: "CASCADE" });
-
-Drug.belongsTo(Admin, { foreignKey: "added_by" });
-Drug.belongsTo(Pharmacist, { foreignKey: "added_by" });
-
-Report.belongsTo(Drug, { foreignKey: "drug_id" });  // 🚀 Ensure `Report` is defined before this line
-Report.belongsTo(Pharmacist, { foreignKey: "pharmacist_id" });
-Report.belongsTo(Admin, { foreignKey: "admin_id", allowNull: true });
-
-// ✅ Sync function
-const syncDatabase = async () => {
+// Connect to MongoDB
+const connectDatabase = async () => {
   try {
-    await sequelize.sync({ force: false });  // ⚠️ Avoid `force: true` in production
-    console.log("✅ Database & tables synced successfully!");
+    await mongoose.connect("mongodb://localhost:27017/drug-app", {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log("✅ Database connected successfully!");
   } catch (error) {
-    console.error("❌ Error syncing database:", error);
+    console.error("❌ Error connecting to database:", error);
   }
 };
 
-// ✅ Export models
+// Export models and connect function
 module.exports = {
-  sequelize,
+  connectDatabase,
   Admin,
   Pharmacist,
   Drug,
   Report,
-  User, 
-  syncDatabase,
+  User,
+  Verification,
 };

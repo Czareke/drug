@@ -77,6 +77,14 @@
                       <label>Password</label>
                       <input type="password" class="form-control" id="loginPassword" required>
                     </div>
+                    <div class="mb-4">
+                      <label>Login As</label>
+                      <select class="form-control" id="loginRole" required>
+                        <option value="user">User</option>
+                        <option value="admin">Admin</option>
+                        <option value="pharmacist">Pharmacist</option>
+                      </select>
+                    </div>
 
                     <!-- Forgot Password Link -->
                     <div class="mb-3 text-end">
@@ -125,20 +133,23 @@
       try {
         const res = await fetch(url, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { 
+            "Content-Type": "application/json"
+          },
           body: JSON.stringify(body),
         });
 
         const data = await res.json();
         
         if (res.ok) {
-          // Store the token
           localStorage.setItem('token', data.token);
           localStorage.setItem('userRole', data.role);
           
           showToast("Login successful!", "success");
           
-          // Redirect based on role
+          // Add console.log for debugging
+          console.log("Login successful, redirecting to:", data.redirect);
+          
           setTimeout(() => {
             window.location.href = data.redirect;
           }, 1500);
@@ -146,6 +157,7 @@
           showToast(data.message || "Login failed", "danger");
         }
       } catch (error) {
+        console.error("Login error:", error);
         showToast("Error. Please try again.", "danger");
       } finally {
         isSubmitting = false;
@@ -154,7 +166,11 @@
 
     document.getElementById("loginForm").addEventListener("submit", (e) => {
       e.preventDefault();
-      handleAuth("/api/auth/login", { email: loginEmail.value, password: loginPassword.value });
+      handleAuth("/api/auth/login", { 
+        email: loginEmail.value, 
+        password: loginPassword.value,
+        role: loginRole.value
+      });
     });
 
     document.getElementById("signupForm").addEventListener("submit", (e) => {

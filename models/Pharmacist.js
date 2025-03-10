@@ -1,43 +1,34 @@
-const { Model, DataTypes } = require("sequelize");
-const sequelize = require("../config/database");
+const mongoose = require("mongoose");
 
-class Pharmacist extends Model {}
-
-Pharmacist.init(
-  {
-    id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-      primaryKey: true,
-    },
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-    },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    admin_id: {
-      type: DataTypes.UUID,
-      allowNull: false,
-      references: {
-        model: "admins",
-        key: "id",
-      },
-    },
+const pharmacistSchema = new mongoose.Schema({
+  id: {
+    type: String,
+    default: () => new mongoose.Types.ObjectId(),
+    unique: true,
   },
-  {
-    sequelize,
-    modelName: "Pharmacist",
-    tableName: "pharmacists",
-    timestamps: false, // ✅ Match your database schema
-  }
-);
+  name: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  admin_id: {
+    type: String,
+    required: true,
+    ref: "Admin",
+  },
+}, {
+  collection: "pharmacists",
+  timestamps: false,
+});
+
+const Pharmacist = mongoose.model("Pharmacist", pharmacistSchema);
 
 module.exports = Pharmacist;

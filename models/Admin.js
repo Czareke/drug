@@ -1,35 +1,29 @@
-const { Model, DataTypes } = require("sequelize");
-const sequelize = require("../config/database");
+const mongoose = require("mongoose");
 
-class Admin extends Model {}
-
-Admin.init(
-  {
-    id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-      primaryKey: true,
-    },
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-    },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
+const adminSchema = new mongoose.Schema({
+  id: {
+    type: String,
+    default: () => new mongoose.Types.ObjectId(),
+    unique: true,
   },
-  {
-    sequelize,
-    modelName: "Admin",
-    tableName: "admins",
-    timestamps: false, // ✅ Match your database schema
-  }
-);
+  name: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+}, {
+  collection: "admins",
+  timestamps: false,
+});
+
+const Admin = mongoose.model("Admin", adminSchema);
 
 module.exports = Admin;

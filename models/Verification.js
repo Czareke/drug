@@ -1,35 +1,31 @@
-const { DataTypes } = require("sequelize");
-const sequelize = require("../config/database");
+const mongoose = require("mongoose");
 
-const Verification = sequelize.define(
-  "Verification",
-  {
-    id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-      allowNull: false,
-      primaryKey: true,
-    },
-    drugId: {
-      type: DataTypes.UUID,
-      allowNull: false,
-      references: { model: "drugs", key: "id" },
-    },
-    pharmacistId: {
-      type: DataTypes.UUID,
-      allowNull: false,
-      references: { model: "pharmacists", key: "id" },
-    },
-    status: {
-      type: DataTypes.ENUM("pending", "verified", "rejected"),
-      allowNull: false,
-      defaultValue: "pending",
-    },
+const verificationSchema = new mongoose.Schema({
+  id: {
+    type: String,
+    default: () => new mongoose.Types.ObjectId(),
+    unique: true,
   },
-  {
-    tableName: "verifications",
-    timestamps: false, // ✅ Explicitly disable timestamps
-  }
-);
+  drugId: {
+    type: String,
+    required: true,
+    ref: "Drug",
+  },
+  pharmacistId: {
+    type: String,
+    required: true,
+    ref: "Pharmacist",
+  },
+  status: {
+    type: String,
+    enum: ["pending", "verified", "rejected"],
+    default: "pending",
+  },
+}, {
+  collection: "verifications",
+  timestamps: false,
+});
+
+const Verification = mongoose.model("Verification", verificationSchema);
 
 module.exports = Verification;

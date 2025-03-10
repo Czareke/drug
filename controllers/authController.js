@@ -64,21 +64,33 @@ exports.registerAdmin = async (req, res) => {
 
 // ✅ Login for both User & Admin
 exports.login = catchAsync(async (req, res, next) => {
-  const { email, password } = req.body;
+  const { email, password, role } = req.body;
 
-  console.log("📌 Login attempt for email:", email);
+  console.log("📌 Login attempt for email:", email, "role:", role);
 
-  const [user, admin, pharmacist] = await Promise.all([
-    User.findOne({ where: { email } }),
-    Admin.findOne({ where: { email } }),
-    Pharmacist.findOne({ where: { email } }),
-  ]);
+  let account;
 
-  const account = user || admin || pharmacist;
+  // Find user based on role
+  switch (role) {
+    case "admin":
+      account = await Admin.findOne({ where: { email } });
+      break;
+    case "pharmacist":
+      account = await Pharmacist.findOne({ where: { email } });
+      break;
+    default:
+      account = await User.findOne({ where: { email } });
+  }
 
   if (!account) {
-    console.log("❌ User not found:", email);
-    return next(new AppError("Invalid credentials", 404));
+    console.log("❌ Account not found:", email);
+    return next(new AppError("Invalid credentials", 401));
+  }
+
+  // Verify role matches
+  if (account.role !== role) {
+    console.log("❌ Role mismatch. Expected:", role, "Got:", account.role);
+    return next(new AppError("Invalid credentials", 401));
   }
 
   const isMatch = await bcrypt.compare(password, account.password);
@@ -175,16 +187,15 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   });
 });
 
-
 exports.protect = async (req, res, next) => {
   try {
     // Get token from header
-    const token = req.headers.authorization?.split(' ')[1];
-    
+    const token = req.headers.authorization?.split(" ")[1];
+
     if (!token) {
-      return res.status(401).json({ 
-        success: false, 
-        message: 'Please login to access this resource' 
+      return res.status(401).json({
+        success: false,
+        message: "Please login to access this resource",
       });
     }
 
@@ -193,18 +204,18 @@ exports.protect = async (req, res, next) => {
 
     // Check user exists
     let user;
-    if (decoded.role === 'admin') {
+    if (decoded.role === "admin") {
       user = await Admin.findByPk(decoded.id);
-    } else if (decoded.role === 'pharmacist') {
+    } else if (decoded.role === "pharmacist") {
       user = await Pharmacist.findByPk(decoded.id);
     } else {
       user = await User.findByPk(decoded.id);
     }
 
     if (!user) {
-      return res.status(401).json({ 
-        success: false, 
-        message: 'User no longer exists' 
+      return res.status(401).json({
+        success: false,
+        message: "User no longer exists",
       });
     }
 
@@ -212,9 +223,9 @@ exports.protect = async (req, res, next) => {
     req.user = user;
     next();
   } catch (error) {
-    res.status(401).json({ 
-      success: false, 
-      message: 'Invalid token' 
+    res.status(401).json({
+      success: false,
+      message: "Invalid token",
     });
   }
 };

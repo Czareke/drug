@@ -1,44 +1,42 @@
-const { DataTypes } = require("sequelize");
-const sequelize = require("../config/database"); // Import the Sequelize instance
+const mongoose = require("mongoose");
 
-const Drug = sequelize.define(
-  "Drug",
-  {
-    id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-      allowNull: false,
-      primaryKey: true,
-    },
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    manufacturer: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    serial_number: {
-      type: DataTypes.STRING,
-      unique: true,
-      allowNull: false,
-    },
-    manufacturing_date: {
-      type: DataTypes.DATE,
-      allowNull: false,
-    },
-    expiry_date: {
-      type: DataTypes.DATE,
-      allowNull: false,
-    },
-    added_by: {
-      type: DataTypes.UUID,
-      allowNull: false,
-    },
+const drugSchema = new mongoose.Schema({
+  id: {
+    type: String,
+    default: () => new mongoose.Types.ObjectId(),
+    unique: true,
   },
-  {
-    timestamps: false, // ✅ Fix: Disable createdAt & updatedAt
-  }
-);
+  name: {
+    type: String,
+    required: true,
+  },
+  manufacturer: {
+    type: String,
+    required: true,
+  },
+  serial_number: {
+    type: String,
+    unique: true,
+    required: true,
+  },
+  manufacturing_date: {
+    type: Date,
+    required: true,
+  },
+  expiry_date: {
+    type: Date,
+    required: true,
+  },
+  added_by: {
+    type: String,
+    required: true,
+    ref: "Admin",
+  },
+}, {
+  collection: "drugs",
+  timestamps: false,
+});
+
+const Drug = mongoose.model("Drug", drugSchema);
 
 module.exports = Drug;

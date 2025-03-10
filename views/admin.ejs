@@ -126,6 +126,26 @@
         </div>
     </div>
     <script src="styles/bootstrap/js/bootstrap.min.js"></script>
-    
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const token = localStorage.getItem('token');
+        const userRole = localStorage.getItem('userRole');
+        
+        if (!token || userRole !== 'admin') {
+          window.location.href = '/login';
+          return;
+        }
+
+        // Add token to all fetch requests
+        const originalFetch = window.fetch;
+        window.fetch = function() {
+          let [url, config] = arguments;
+          config = config || {};
+          config.headers = config.headers || {};
+          config.headers['Authorization'] = `Bearer ${token}`;
+          return originalFetch(url, config);
+        }
+      });
+    </script>
 </body>
 </html>
