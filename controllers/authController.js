@@ -1,8 +1,9 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const db = require("../models");  // ✅ Import models properly
+const db = require("../models"); // ✅ Import models properly
 const User = db.User;
 const Admin = db.Admin;
+const Pharmacist = db.Pharmacist;
 
 require("dotenv").config();
 const AppError = require("../utils/appError");
@@ -23,7 +24,12 @@ exports.registerUser = async (req, res) => {
     if (user) return res.status(400).json({ message: "User already exists" });
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    user = await User.create({ name, email, password: hashedPassword, role: "user" });
+    user = await User.create({
+      name,
+      email,
+      password: hashedPassword,
+      role: "user",
+    });
 
     res.status(201).json({ message: "User registered successfully", user });
   } catch (error) {
@@ -42,7 +48,12 @@ exports.registerAdmin = async (req, res) => {
 
     // ✅ Ensure password is hashed before storing
     const hashedPassword = await bcrypt.hash(password, 10);
-    admin = await Admin.create({ name, email, password: hashedPassword, role: "admin" });
+    admin = await Admin.create({
+      name,
+      email,
+      password: hashedPassword,
+      role: "admin",
+    });
 
     res.status(201).json({ message: "Admin registered successfully", admin });
   } catch (error) {
@@ -52,28 +63,24 @@ exports.registerAdmin = async (req, res) => {
 };
 
 // ✅ Login for both User & Admin
-
-// ✅ Login for both User & Admin
 exports.login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
 
   console.log("📌 Login attempt for email:", email);
 
-  const [user, admin] = await Promise.all([
+  const [user, admin, pharmacist] = await Promise.all([
     User.findOne({ where: { email } }),
     Admin.findOne({ where: { email } }),
+    Pharmacist.findOne({ where: { email } }),
   ]);
 
-  const account = user || admin;
+  const account = user || admin || pharmacist;
 
   if (!account) {
     console.log("❌ User not found:", email);
-    return next(new AppError("User or Admin not found", 404));
+    return next(new AppError("Invalid credentials", 404));
   }
 
-  console.log("✅ User found:", account.email);
-
-  // Compare password (without displaying it)
   const isMatch = await bcrypt.compare(password, account.password);
 
   if (!isMatch) {
@@ -83,15 +90,24 @@ exports.login = catchAsync(async (req, res, next) => {
 
   const token = generateToken(account.id, account.role);
 
-  console.log("✅ Login Successful:", account.email);
+  // Determine redirect based on role
+  let redirect;
+  if (account.role === "admin") {
+    redirect = "/admin";
+  } else if (account.role === "pharmacist") {
+    redirect = "/pharmacistadmin";
+  } else {
+    redirect = "/";
+  }
 
   res.status(200).json({
+    success: true,
     message: "Login successful",
     token,
     role: account.role,
+    redirect,
   });
 });
-
 
 exports.forgotPassword = catchAsync(async (req, res, next) => {
   const user = await User.findOne({ where: { email: req.body.email } });
@@ -102,7 +118,9 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   const resetToken = user.createPasswordResetToken();
   await user.save({ validateBeforeSave: false });
 
-  const resetURL = `${req.protocol}://${req.get("host")}/api/v1/auth/resetPassword/${resetToken}`;
+  const resetURL = `${req.protocol}://${req.get(
+    "host"
+  )}/api/v1/auth/resetPassword/${resetToken}`;
 
   const message = `Forgot your password? Submit a PATCH request with your new password and passwordConfirm to: ${resetURL}.\nIf you didn't forget your password, please ignore this email!`;
 
@@ -122,7 +140,12 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     user.passwordResetExpires = undefined;
     await user.save({ validateBeforeSave: false });
 
-    return next(new AppError("There was an error sending the email. Try again later!", 500));
+    return next(
+      new AppError(
+        "There was an error sending the email. Try again later!",
+        500
+      )
+    );
   }
 });
 
@@ -130,7 +153,10 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   const { token, newPassword } = req.body;
 
   const user = await User.findOne({
-    where: { passwordResetToken: token, passwordResetExpires: { $gt: Date.now() } },
+    where: {
+      passwordResetToken: token,
+      passwordResetExpires: { $gt: Date.now() },
+    },
   });
 
   if (!user) {
@@ -148,3 +174,47 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
     message: "Password updated successfully",
   });
 });
+
+
+exports.protect = async (req, res, next) => {
+  try {
+    // Get token from header
+    const token = req.headers.authorization?.split(' ')[1];
+    
+    if (!token) {
+      return res.status(401).json({ 
+        success: false, 
+        message: 'Please login to access this resource' 
+      });
+    }
+
+    // Verify token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    // Check user exists
+    let user;
+    if (decoded.role === 'admin') {
+      user = await Admin.findByPk(decoded.id);
+    } else if (decoded.role === 'pharmacist') {
+      user = await Pharmacist.findByPk(decoded.id);
+    } else {
+      user = await User.findByPk(decoded.id);
+    }
+
+    if (!user) {
+      return res.status(401).json({ 
+        success: false, 
+        message: 'User no longer exists' 
+      });
+    }
+
+    // Add user to request
+    req.user = user;
+    next();
+  } catch (error) {
+    res.status(401).json({ 
+      success: false, 
+      message: 'Invalid token' 
+    });
+  }
+};

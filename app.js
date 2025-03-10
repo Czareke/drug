@@ -4,7 +4,7 @@ const cors = require("cors");
 const qrRoutes = require("./routes/qrRoutes");
 const AppError = require("./utils/appError");
 // Import database and models
-const { sequelize } = require("./models");  // ✅ Import models/index.js to initialize Sequelize
+const { sequelize } = require("./models"); // ✅ Import models/index.js to initialize Sequelize
 
 // Import routes
 const authRoutes = require("./routes/authRoutes");
@@ -15,12 +15,13 @@ const reportRoutes = require("./routes/reportRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const pharmacistRoutes = require("./routes/pharmacistRoutes");
 const globalErrorHandler = require("./controllers/errorController");
+const { protect } = require("./middleware/auth");
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+app.use(express.static(path.join(__dirname, "public")));
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 
 // Register Routes
 app.use("/api/auth", authRoutes);
@@ -31,7 +32,6 @@ app.use("/api/reports", reportRoutes);
 app.use("/api/admins", adminRoutes);
 app.use("/api/pharmacists", pharmacistRoutes);
 app.use("/api/qrcode", qrRoutes);
-
 
 // ✅ Global Error Handler
 app.use((err, req, res, next) => {
@@ -44,74 +44,81 @@ app.use((err, req, res, next) => {
     message: err.message,
   });
 });
-app.get("/", (req,res) => {
-  res.render("index")
-})
-app.get("/verify", (req,res) => {
-  res.render("verify")
-})
-app.get("/about", (req,res) => {
-  res.render("about")
-})
-app.get("/contact", (req,res) => {
-  res.render("contact")
-})
-app.get("/login", (req,res) => {
-  res.render("login")
-})
-app.get("/forgot-password", (req,res) => {
-  res.render("forgot-password")
-})
-app.get("/admin", (req,res) => {
-  res.render("admin")
-})
-app.get("/pharmacist", (req,res) => {
-  res.render("pharmacist")
-})
-app.get("/managedrugs", (req,res) => {
-  res.render("managedrugs")
-})
-app.get("/expireddrugs", (req,res) => {
-  res.render("expireddrugs")
-})
-app.get("/report", (req,res) => {
-  res.render("report")
-})
-app.get("/settings", (req,res) => {
-  res.render("settings")
-})
-app.get("/logout", (req,res) => {
-  res.render("logout")
-})
-app.get("/pharmacistadmin", (req,res) => {
-  res.render("pharmacistadmin")
-})
-app.get("/druginventory", (req,res) => {
-  res.render("druginventory")
-})
-app.get("/verifydrug", (req,res) => {
-  res.render("verifydrug")
-})
-app.get("/expireddrug", (req,res) => {
-  res.render("expireddrug")
-})
-app.get("/profile", (req,res) => {
-  res.render("profile")
-})
-app.get("/pharmacistlogout", (req,res) => {
-  res.render("pharmacistlogout")
-})
+app.get("/", (req, res) => {
+  res.render("index");
+});
+app.get("/verify", (req, res) => {
+  res.render("verify");
+});
+app.get("/about", (req, res) => {
+  res.render("about");
+});
+app.get("/contact", (req, res) => {
+  res.render("contact");
+});
+app.get("/login", (req, res) => {
+  res.render("login");
+});
+app.get("/forgot-password", (req, res) => {
+  res.render("forgot-password");
+});
+app.get("/admin", protect, (req, res) => {
+  if (req.user.role !== "admin") {
+    return res.redirect("/login");
+  }
+  res.render("admin");
+});
+app.get("/pharmacist", (req, res) => {
+  res.render("pharmacist");
+});
+app.get("/managedrugs", protect, (req, res) => {
+  res.render("managedrugs");
+});
+app.get("/expireddrugs", protect, (req, res) => {
+  res.render("expireddrugs");
+});
+app.get("/report", protect, (req, res) => {
+  res.render("report");
+});
+app.get("/settings", protect, (req, res) => {
+  res.render("settings");
+});
+app.get("/logout", (req, res) => {
+  res.render("logout");
+});
+app.get("/pharmacistadmin", protect, (req, res) => {
+  if (req.user.role !== "pharmacist") {
+    return res.redirect("/login");
+  }
+  res.render("pharmacistadmin");
+});
+app.get("/druginventory", protect, (req, res) => {
+  res.render("druginventory");
+});
+app.get("/verifydrug", protect, (req, res) => {
+  res.render("verifydrug");
+});
+app.get("/expireddrug", protect, (req, res) => {
+  res.render("expireddrug");
+});
+app.get("/profile", protect, (req, res) => {
+  res.render("profile");
+});
+app.get("/pharmacistlogout", (req, res) => {
+  res.render("pharmacistlogout");
+});
 app.post("/api/auth/login", async (req, res) => {
   // Authentication logic...
   if (loginSuccessful) {
-      return res.json({ message: "Login successful", redirect: "index" }); // ✅ Redirect to home
+    return res.json({ message: "Login successful", redirect: "index" }); // ✅ Redirect to home
   } else {
-      return res.status(401).json({ message: "Invalid credentials" });
+    return res.status(401).json({ message: "Invalid credentials" });
   }
 });
 
 // Sync database before starting the server
-sequelize.sync({ force: false })  // ❌ Don't use force:true in production
+sequelize
+  .sync({ force: false }) // ❌ Don't use force:true in production
   .then(() => {
     console.log("✅ Database connected & tables synced!");
 
@@ -121,4 +128,4 @@ sequelize.sync({ force: false })  // ❌ Don't use force:true in production
   .catch((err) => {
     console.error("❌ Database connection failed:", err);
   });
-  app.use(globalErrorHandler);
+app.use(globalErrorHandler);

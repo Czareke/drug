@@ -130,13 +130,23 @@
         });
 
         const data = await res.json();
-        showToast(data.message, res.ok ? "success" : "danger");
-
-        if (res.ok && data.redirect) {
-          setTimeout(() => window.location.href = data.redirect, 1500);
+        
+        if (res.ok) {
+          // Store the token
+          localStorage.setItem('token', data.token);
+          localStorage.setItem('userRole', data.role);
+          
+          showToast("Login successful!", "success");
+          
+          // Redirect based on role
+          setTimeout(() => {
+            window.location.href = data.redirect;
+          }, 1500);
+        } else {
+          showToast(data.message || "Login failed", "danger");
         }
       } catch (error) {
-        showToast("Error. Try again.", "danger");
+        showToast("Error. Please try again.", "danger");
       } finally {
         isSubmitting = false;
       }
@@ -158,6 +168,37 @@
       toast.classList.add(`bg-${type}`);
       toast.querySelector(".toast-body").textContent = message;
       new bootstrap.Toast(toast).show();
+    }
+
+    function checkAuth() {
+      const token = localStorage.getItem('token');
+      const userRole = localStorage.getItem('userRole');
+      
+      if (!token) {
+        window.location.href = '/login';
+        return;
+      }
+
+      // Add token to all API requests
+      fetch('/api/auth/verify', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      .then(res => {
+        if (!res.ok) {
+          localStorage.removeItem('token');
+          localStorage.removeItem('userRole');
+          window.location.href = '/login';
+        }
+      })
+      .catch(() => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('userRole');
+        window.location.href = '/login';
+      });
+
+      return { token, userRole };
     }
   </script>
   
