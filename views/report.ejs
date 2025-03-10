@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles/report.css">
+    <link rel="stylesheet" href="styles/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles/fontawesome/css/all.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="brand">DrugVerify</div>
+        <a href="/admin" class="nav-item">
+            <i class="fas fa-tachometer-alt"></i> Dashboard
+        </a>
+        <a href="/managedrugs" class="nav-item">
+            <i class="fas fa-pills"></i> Manage Drugs
+        </a>
+        <a href="/pharmacist" class="nav-item">
+            <i class="fas fa-user-md"></i> Pharmacists
+        </a>
+        <a href="/expireddrugs" class="nav-item">
+            <i class="fas fa-calendar-times"></i> Expired Drugs
+        </a>
+        <a href="/report" class="nav-item active">
+            <i class="fas fa-chart-bar"></i> Reports
+        </a>
+        <a href="/settings" class="nav-item">
+            <i class="fas fa-cog"></i> Settings
+        </a>
+        <a href="/logout" class="nav-item" style="margin-top: auto;">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+    </div>
+
+    <div class="main-content">
+        <div class="header-section">
+            <h2>Reports & Analytics</h2>
+            <p>Comprehensive overview of system statistics and trends</p>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div class="date-filter">
+                <input type="date" class="form-control">
+                <input type="date" class="form-control">
+                <button class="btn btn-primary">Apply Filter</button>
+            </div>
+            <button class="export-btn">
+                <i class="fas fa-download"></i> Export Report
+            </button>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value">1,234</div>
+                <div class="stat-label">Total Drugs</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">45</div>
+                <div class="stat-label">Expired Drugs</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">24</div>
+                <div class="stat-label">Active Pharmacists</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">89%</div>
+                <div class="stat-label">Verification Rate</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8">
+                <div class="report-card">
+                    <h5>Drug Verification Trends</h5>
+                    <div class="chart-container">
+                        <canvas id="trendsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="report-card">
+                    <h5>Drug Categories</h5>
+                    <div class="chart-container">
+                        <canvas id="categoriesChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="report-card">
+            <h5>Recent Activities</h5>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Pharmacist</th>
+                            <th>Action</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>2024-02-20</td>
+                            <td>Dr. John Doe</td>
+                            <td>Added Drug</td>
+                            <td>Added Paracetamol to inventory</td>
+                        </tr>
+                        <tr>
+                            <td>2024-02-19</td>
+                            <td>Dr. Jane Smith</td>
+                            <td>Updated Stock</td>
+                            <td>Updated Amoxicillin stock count</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Trends Chart
+        const trendsCtx = document.getElementById('trendsChart').getContext('2d');
+        new Chart(trendsCtx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Verifications',
+                    data: [65, 59, 80, 81, 56, 55],
+                    borderColor: '#007bff',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+
+        // Categories Chart
+        const categoriesCtx = document.getElementById('categoriesChart').getContext('2d');
+        new Chart(categoriesCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Antibiotics', 'Painkillers', 'Vitamins', 'Others'],
+                datasets: [{
+                    data: [30, 25, 20, 25],
+                    backgroundColor: ['#007bff', '#28a745', '#ffc107', '#dc3545']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles/expireddrugs.css">
+    <link rel="stylesheet" href="styles/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles/fontawesome/css/all.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="brand">DrugVerify</div>
+        <a href="/admin" class="nav-item">
+            <i class="fas fa-tachometer-alt"></i> Dashboard
+        </a>
+        <a href="/managedrugs" class="nav-item">
+            <i class="fas fa-pills"></i> Manage Drugs
+        </a>
+        <a href="/pharmacist" class="nav-item">
+            <i class="fas fa-user-md"></i> Pharmacists
+        </a>
+        <a href="/expireddrugs" class="nav-item active">
+            <i class="fas fa-calendar-times"></i> Expired Drugs
+        </a>
+        <a href="/report" class="nav-item">
+            <i class="fas fa-chart-bar"></i> Reports
+        </a>
+        <a href="/settings" class="nav-item">
+            <i class="fas fa-cog"></i> Settings
+        </a>
+        <a href="/logout" class="nav-item" style="margin-top: auto;">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+    </div>
+
+    <div class="main-content">
+        <div class="header-section">
+            <h2>Expired Drugs</h2>
+            <p>Overview of expired and expiring drugs in the system</p>
+        </div>
+
+        <div class="stats-cards">
+            <div class="stat-card">
+                <div class="stat-value">45</div>
+                <div class="stat-label">Total Expired Drugs</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">23</div>
+                <div class="stat-label">Expiring This Month</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">12</div>
+                <div class="stat-label">Expiring Next Month</div>
+            </div>
+        </div>
+
+        <div class="search-section">
+            <div class="row">
+                <div class="col-md-8">
+                    <input type="text" class="form-control" placeholder="Search drugs...">
+                </div>
+                <div class="col-md-4">
+                    <select class="form-control">
+                        <option>All Status</option>
+                        <option>Expired</option>
+                        <option>Expiring Soon</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="drug-table">
+            <table class="table table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Drug Name</th>
+                        <th>Serial Number</th>
+                        <th>Category</th>
+                        <th>Expiry Date</th>
+                        <th>Status</th>
+                        <th>Stock</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><img src="/placeholder.jpg" alt="Drug" class="drug-image"></td>
+                        <td>Paracetamol</td>
+                        <td>PCM-001</td>
+                        <td>Painkillers</td>
+                        <td>2024-01-15</td>
+                        <td><span class="status-badge status-expired">Expired</span></td>
+                        <td>150</td>
+                        <td>
+                            <button class="action-btn btn-view">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="action-btn btn-delete">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><img src="/placeholder.jpg" alt="Drug" class="drug-image"></td>
+                        <td>Amoxicillin</td>
+                        <td>AMX-002</td>
+                        <td>Antibiotics</td>
+                        <td>2024-02-28</td>
+                        <td><span class="status-badge status-expiring">Expiring Soon</span></td>
+                        <td>75</td>
+                        <td>
+                            <button class="action-btn btn-view">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="action-btn btn-delete">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

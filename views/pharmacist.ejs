@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles/pharmacist.css">
+    <link rel="stylesheet" href="styles/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles/fontawesome/css/all.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="brand">DrugVerify</div>
+        <a href="/admin" class="nav-item">
+            <i class="fas fa-tachometer-alt"></i>
+            Dashboard
+        </a>
+        <a href="/managedrugs" class="nav-item">
+            <i class="fas fa-pills"></i>
+            Manage Drugs
+        </a>
+        <a href="/pharmacist" class="nav-item active">
+            <i class="fas fa-user-md"></i>
+            Pharmacists
+        </a>
+        <a href="/expireddrugs" class="nav-item">
+            <i class="fas fa-calendar-times"></i>
+            Expired Drugs
+        </a>
+        <a href="/report" class="nav-item">
+            <i class="fas fa-chart-bar"></i>
+            Reports
+        </a>
+        <a href="/settings" class="nav-item">
+            <i class="fas fa-cog"></i>
+            Settings
+        </a>
+        <a href="/logout" class="nav-item" style="margin-top: auto;">
+            <i class="fas fa-sign-out-alt"></i>
+            Logout
+        </a>
+    </div>
+
+    <div class="main-content">
+        <h1 class="page-title">Manage Pharmacists</h1>
+        <p class="page-description">Overview of all registered pharmacists in the system</p>
+        
+        <div class="total-count">
+            Total Pharmacists: <span>24</span>
+            <button class="add-new-btn">
+                <i class="fas fa-plus-circle"></i> Add New Pharmacist
+            </button>
+        </div>
+
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Search pharmacists...">
+            <select class="filter-select">
+                <option>Filter by Status</option>
+                <option>Active</option>
+                <option>Inactive</option>
+            </select>
+        </div>
+
+        <div class="pharmacist-item">
+            <div class="pharmacist-header">
+                <img src="/placeholder.jpg" alt="Dr. John Doe" class="pharmacist-avatar">
+                <div>
+                    <h5>Dr. John Doe</h5>
+                    <span class="status-badge">Active</span>
+                </div>
+            </div>
+            
+            <div class="contact-info">
+                <p><i class="fas fa-envelope"></i> john.doe@example.com</p>
+                <p><i class="fas fa-id-card"></i> License: PHR-12345</p>
+            </div>
+
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-value">150</div>
+                    <div class="stat-label">Drugs Added</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">45</div>
+                    <div class="stat-label">Updates</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">12</div>
+                    <div class="stat-label">Reports</div>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn-action btn-view">
+                    <i class="fas fa-eye"></i> View
+                </button>
+                <button class="btn-action btn-edit">
+                    <i class="fas fa-edit"></i> Edit
+                </button>
+                <button class="btn-action btn-delete">
+                    <i class="fas fa-trash"></i> Delete
+                </button>
+            </div>
+        </div>
+        <div class="pharmacist-header">
+            <img src="/placeholder.jpg" alt="Dr. John Doe" class="pharmacist-avatar">
+            <div>
+                <h5>Dr. John Doe</h5>
+                <span class="status-badge">Active</span>
+            </div>
+        </div>
+        
+        <div class="contact-info">
+            <p><i class="fas fa-envelope"></i> john.doe@example.com</p>
+            <p><i class="fas fa-id-card"></i> License: PHR-12345</p>
+        </div>
+
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-value">150</div>
+                <div class="stat-label">Drugs Added</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">45</div>
+                <div class="stat-label">Updates</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">12</div>
+                <div class="stat-label">Reports</div>
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <button class="btn-action btn-view">
+                <i class="fas fa-eye"></i> View
+            </button>
+            <button class="btn-action btn-edit">
+                <i class="fas fa-edit"></i> Edit
+            </button>
+            <button class="btn-action btn-delete">
+                <i class="fas fa-trash"></i> Delete
+            </button>
+        </div>
+    </div>
+</div>
+
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    </script>
+</body>
+</html>

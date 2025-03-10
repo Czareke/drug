@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles/pharmacistlogout.css">
+    <link rel="stylesheet" href="styles/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles/fontawesome/css/all.css">
+</head>
+<body>
+    <div class="logout-container">
+        <div class="brand">DrugVerify</div>
+        <div class="logout-card">
+            <div class="profile-info">
+                <img src="/placeholder.jpg" alt="Profile" class="profile-avatar">
+                <div class="profile-name">Dr. John Doe</div>
+                <div class="profile-role">Senior Pharmacist</div>
+            </div>
+
+            <div class="session-info">
+                <div class="session-item">
+                    <span class="session-label">Session Started</span>
+                    <span class="session-value">2 hours ago</span>
+                </div>
+                <div class="session-item">
+                    <span class="session-label">Last Activity</span>
+                    <span class="session-value">5 minutes ago</span>
+                </div>
+                <div class="session-item">
+                    <span class="session-label">IP Address</span>
+                    <span class="session-value">192.168.1.1</span>
+                </div>
+            </div>
+
+            <div class="activity-summary">
+                <div class="activity-item">
+                    <div class="activity-icon">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <span>15 drugs verified today</span>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-icon">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                    <span>3 new drugs added to inventory</span>
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn-cancel" onclick="window.history.back()">
+                    <i class="fas fa-arrow-left"></i> Cancel
+                </button>
+                <button class="btn-logout" onclick="window.location.href='/logout/confirm'">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+
+            <div class="warning-text">
+                <i class="fas fa-exclamation-triangle"></i>
+                Any unsaved changes will be lost
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Add any necessary logout functionality
+        document.querySelector('.btn-logout').addEventListener('click', function() {
+            // Clear session storage
+            sessionStorage.clear();
+            // Clear local storage
+            localStorage.clear();
+            // Redirect to login page
+            window.location.href = '/login';
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles/settings.css">
+    <link rel="stylesheet" href="styles/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles/fontawesome/css/all.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="brand">DrugVerify</div>
+        <a href="/admin" class="nav-item">
+            <i class="fas fa-tachometer-alt"></i> Dashboard
+        </a>
+        <a href="/managedrugs" class="nav-item">
+            <i class="fas fa-pills"></i> Manage Drugs
+        </a>
+        <a href="/pharmacist" class="nav-item">
+            <i class="fas fa-user-md"></i> Pharmacists
+        </a>
+        <a href="/expireddrugs" class="nav-item">
+            <i class="fas fa-calendar-times"></i> Expired Drugs
+        </a>
+        <a href="/report" class="nav-item">
+            <i class="fas fa-chart-bar"></i> Reports
+        </a>
+        <a href="/settings" class="nav-item active">
+            <i class="fas fa-cog"></i> Settings
+        </a>
+        <a href="/logout" class="nav-item" style="margin-top: auto;">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+    </div>
+
+    <div class="main-content">
+        <div class="header-section">
+            <h2>Settings</h2>
+            <p>Configure your system preferences and account settings</p>
+        </div>
+
+        <div class="settings-card">
+            <div class="settings-section">
+                <h5><i class="fas fa-user-circle"></i> Account Settings</h5>
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-control" value="admin@drugverify.com">
+                    <div class="form-text">This email will be used for notifications and alerts</div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Change Password</label>
+                    <input type="password" class="form-control" placeholder="Enter new password">
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h5><i class="fas fa-bell"></i> Notification Settings</h5>
+                <div class="form-group d-flex justify-content-between align-items-center">
+                    <div>
+                        <label class="form-label mb-0">Email Notifications</label>
+                        <div class="form-text">Receive alerts about expired drugs</div>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="form-group d-flex justify-content-between align-items-center">
+                    <div>
+                        <label class="form-label mb-0">System Alerts</label>
+                        <div class="form-text">Get notified about system updates</div>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h5><i class="fas fa-shield-alt"></i> Security Settings</h5>
+                <div class="form-group d-flex justify-content-between align-items-center">
+                    <div>
+                        <label class="form-label mb-0">Two-Factor Authentication</label>
+                        <div class="form-text">Add an extra layer of security</div>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Session Timeout</label>
+                    <select class="form-control">
+                        <option>15 minutes</option>
+                        <option>30 minutes</option>
+                        <option>1 hour</option>
+                        <option>2 hours</option>
+                    </select>
+                    <div class="form-text">Automatically log out after inactivity</div>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h5><i class="fas fa-database"></i> System Settings</h5>
+                <div class="form-group">
+                    <label class="form-label">Data Backup Frequency</label>
+                    <select class="form-control">
+                        <option>Daily</option>
+                        <option>Weekly</option>
+                        <option>Monthly</option>
+                    </select>
+                </div>
+                <div class="form-group d-flex justify-content-between align-items-center">
+                    <div>
+                        <label class="form-label mb-0">Automatic Updates</label>
+                        <div class="form-text">Keep the system up to date</div>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="text-end mt-4">
+                <button class="save-btn">
+                    <i class="fas fa-save"></i> Save Changes
+                </button>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PharmaVerify - Verify Your Medication</title>
+    <meta name="description" content="Verify the authenticity of your medications instantly">
+    <meta name="author" content="PharmaVerify">
+    <meta property="og:image" content="/og-image.png">
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="styles/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles/fontawesome/css/all.css">
+    <link rel="stylesheet" href="styles/verify.css">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm">
+      <div class="container">
+        <a class="navbar-brand fw-bold" href="#">PharmaVerify</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/api/verify">Verification</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/about">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/contact">Contact</a>
+            </li>
+            <li class="nav-item">
+              <a class="btn btn" href="/login">Login</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- Verification Hero Section -->
+    <section class="verification-hero py-5 mt-5 text-center">
+        <div class="container">
+            <h1 class="display-4 fw-bold mb-4">Verify Your Medication</h1>
+            <p class="lead mb-5">Enter the serial number found on your medication package to verify its authenticity.</p>
+        </div>
+    </section>
+
+    <!-- Serial Number Verification Section -->
+    <section class="verification-method py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="card border-0 shadow-lg hover-shadow h-100">
+                        <div class="card-body p-5">
+                            <div class="icon-wrapper text-center mb-4">
+                                <i class="fas fa-barcode fa-3x"></i>
+                            </div>
+                            <h3 class="h4 text-center mb-4">Enter Serial Number</h3>
+                            <p class="text-muted text-center mb-4">Input the serial number found on your medication package.</p>
+                            <form class="verification-form" id="verificationForm">
+                                <div class="form-group mb-4">
+                                    <label for="serialNumber" class="form-label">Serial Number</label>
+                                    <input type="text" class="form-control form-control-lg" id="serialNumber" 
+                                           placeholder="Enter serial number" required>
+                                    <small class="text-muted">Example: PV-2024-123456</small>
+                                </div>
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary btn-lg px-5">
+                                        Verify <i class="fas fa-search ms-2"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Verification Result Section (Initially Hidden) -->
+            <div class="verification-result mt-5 text-center" id="verificationResult" style="display: none;">
+                <div class="card border-0 shadow-lg">
+                    <div class="card-body p-5">
+                        <h3 class="gradient-text mb-4">Verification Result</h3>
+                        <div class="result-details">
+                            <p><strong>Status:</strong> <span class="badge bg-success ms-2" id="statusText">Verified Authentic</span></p>
+                            <p><strong>Product Name:</strong> <span id="productName">-</span></p>
+                            <p><strong>Manufacturer:</strong> <span id="manufacturer">-</span></p>
+                            <p><strong>Manufacturing Date:</strong> <span id="manufacturingDate">-</span></p>
+                            <p><strong>Expiry Date:</strong> <span id="expiryDate">-</span></p>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer class="footer py-5">
+      <div class="container">
+        <div class="row g-4">
+          <div class="col-lg-4 col-md-6">
+            <div class="footer-info">
+              <a href="#" class="footer-brand mb-4">PharmaVerify</a>
+              <p class="footer-desc mb-4">
+                Ensuring the authenticity of medications through advanced verification systems. Your trusted partner in medication safety.
+              </p>
+              <div class="social-links">
+                <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-6">
+            <h5 class="footer-title">Quick Links</h5>
+            <ul class="footer-links">
+              <li><a href="#">Home</a></li>
+              <li><a href="#verify">Verification</a></li>
+              <li><a href="#about">About Us</a></li>
+              <li><a href="#contact">Contact</a></li>
+              <li><a href="#faq">FAQs</a></li>
+            </ul>
+          </div>
+          <div class="col-lg-2 col-md-6">
+            <h5 class="footer-title">Services</h5>
+            <ul class="footer-links">
+              <li><a href="#">Medicine Verification</a></li>
+              <li><a href="#">QR Code Scanning</a></li>
+              <li><a href="#">Real-time Updates</a></li>
+              <li><a href="#">Pharmacy Network</a></li>
+              <li><a href="#">Support</a></li>
+            </ul>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <h5 class="footer-title">Newsletter</h5>
+            <p class="footer-desc mb-3">Stay updated with our latest features and releases.</p>
+            <div class="newsletter-form">
+              <div class="input-group">
+                <input type="email" class="form-control" placeholder="Enter your email">
+                <button class="btn btn-primary" type="button">Subscribe</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr class="footer-divider my-4">
+        <div class="row align-items-center">
+          <div class="col-md-6">
+            <p class="copyright mb-0">
+              © 2024 PharmaVerify. All rights reserved.
+            </p>
+          </div>
+          <div class="col-md-6 text-md-end">
+            <div class="footer-bottom-links">
+              <a href="#">Privacy Policy</a>
+              <a href="#">Terms of Service</a>
+              <a href="#">Cookie Policy</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <div class="toast-container position-fixed top-0 end-0 p-3">
+      <div id="toastMessage" class="toast align-items-center text-white bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true">
+          <div class="d-flex">
+              <div class="toast-body">
+                  Invalid serial number or product not found.
+              </div>
+              <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+      </div>
+  </div>
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Verification Script -->
+    <!-- Verification Script -->
+<script>
+  document.getElementById('verificationForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const serialNumber = document.getElementById('serialNumber').value.trim();
+      if (!serialNumber) {
+          showToast("Please enter a serial number.", "danger");
+          return;
+      }
+
+      try {
+          const response = await fetch('/api/verification/verify', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ serialNumber })
+          });
+
+          const data = await response.json();
+          const statusElement = document.getElementById('statusText');
+
+          if (response.ok) {
+              // Set background color based on verification status
+              if (data.status === "verified") {
+                  statusElement.textContent = "Verified Authentic";
+                  statusElement.style.backgroundColor = "green";
+              } else if (data.status === "expired") {
+                  statusElement.textContent = "Expired";
+                  statusElement.style.backgroundColor = "brown";
+              }
+
+              // Update product details
+              document.getElementById('productName').textContent = data.product.name;
+              document.getElementById('manufacturer').textContent = data.product.manufacturer;
+              document.getElementById('manufacturingDate').textContent = data.product.manufacturingDate;
+              document.getElementById('expiryDate').textContent = data.product.expiryDate;
+              
+              document.getElementById('verificationResult').style.display = 'block';
+              showToast("Product successfully verified!", "success");
+          } else {
+              // If response is not ok, treat it as fake
+              statusElement.textContent = "Fake";
+              statusElement.style.backgroundColor = "red";
+              document.getElementById('verificationResult').style.display = 'block';
+              showToast("Invalid serial number or product not found.", "danger");
+          }
+      } catch (error) {
+          showToast("Error verifying the serial number. Please try again.", "warning");
+          console.error("❌ Verification error:", error);
+      }
+  });
+
+  // Function to show toast notifications
+  function showToast(message, type) {
+      const toastElement = document.getElementById("toastMessage");
+      const toastBody = toastElement.querySelector(".toast-body");
+      toastBody.textContent = message;
+      
+      // Remove any existing background classes and add the new one
+      toastElement.classList.remove("bg-success", "bg-danger", "bg-warning");
+      toastElement.classList.add(`bg-${type}`);
+
+      const toast = new bootstrap.Toast(toastElement);
+      toast.show();
+  }
+</script>
+
+</body>
+</html>

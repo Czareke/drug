@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles/verifydrug.css">
+    <link rel="stylesheet" href="styles/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles/fontawesome/css/all.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="brand">DrugVerify</div>
+        <a href="/pharmacistadmin" class="nav-item">
+            <i class="fas fa-tachometer-alt"></i> Dashboard
+        </a>
+        <a href="/druginventory" class="nav-item">
+            <i class="fas fa-pills"></i> Drug Inventory
+        </a>
+        <a href="/verifydrug" class="nav-item active">
+            <i class="fas fa-check-circle"></i> Verify Drugs
+        </a>
+        <a href="/expireddrug" class="nav-item">
+            <i class="fas fa-calendar-times"></i> Expired Drugs
+        </a>
+        <a href="/profile" class="nav-item">
+            <i class="fas fa-user"></i> My Profile
+        </a>
+        <a href="/pharmacistlogout" class="nav-item" style="margin-top: auto;">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+    </div>
+
+    <div class="main-content">
+        <div class="header-section">
+            <h2>Verify Drugs</h2>
+            <p>Scan or enter drug details to verify authenticity</p>
+        </div>
+
+        <div class="verify-section">
+            <div class="scan-box">
+                <h5>Scan Drug Code</h5>
+                <div class="scan-area">
+                    <i class="fas fa-qrcode scan-icon"></i>
+                    <p>Place QR code in the scanning area</p>
+                    <small class="text-muted">or</small>
+                    <input type="text" class="form-control mt-3" placeholder="Enter drug serial number">
+                </div>
+                <button class="btn-verify">
+                    <i class="fas fa-search"></i> Verify Drug
+                </button>
+            </div>
+
+            <div class="verification-result">
+                <div class="result-header">
+                    <i class="fas fa-check-circle result-icon result-success"></i>
+                    <h5 class="mb-0">Verification Result</h5>
+                </div>
+                
+                <div class="drug-details">
+                    <div class="detail-row">
+                        <span>Drug Name:</span>
+                        <strong>Paracetamol</strong>
+                    </div>
+                    <div class="detail-row">
+                        <span>Manufacturer:</span>
+                        <strong>PharmaCorp Ltd.</strong>
+                    </div>
+                    <div class="detail-row">
+                        <span>Batch Number:</span>
+                        <strong>PCM-2024-001</strong>
+                    </div>
+                    <div class="detail-row">
+                        <span>Manufacturing Date:</span>
+                        <strong>2024-01-15</strong>
+                    </div>
+                    <div class="detail-row">
+                        <span>Expiry Date:</span>
+                        <strong>2026-01-15</strong>
+                    </div>
+                    <div class="detail-row">
+                        <span>Status:</span>
+                        <strong class="text-success">Verified & Authentic</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="verification-history">
+            <h5>Recent Verifications</h5>
+            <div class="history-item">
+                <div class="history-icon bg-success text-white">
+                    <i class="fas fa-check"></i>
+                </div>
+                <div>
+                    <h6 class="mb-1">Paracetamol - PCM-2024-001</h6>
+                    <small class="text-muted">Verified 2 hours ago</small>
+                </div>
+            </div>
+            <div class="history-item">
+                <div class="history-icon bg-danger text-white">
+                    <i class="fas fa-times"></i>
+                </div>
+                <div>
+                    <h6 class="mb-1">Amoxicillin - AMX-2024-002</h6>
+                    <small class="text-muted">Failed verification 5 hours ago</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

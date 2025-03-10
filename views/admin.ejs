@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles/admin.css">
+    <link rel="stylesheet" href="styles/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles/fontawesome/css/all.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-2 sidebar">
+                <div class="logo">
+                    
+                    <h4 class="text-white">DrugVerify</h4>
+                </div>
+                <a href="/admin" class="active">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </a>
+                <a href="/managedrugs">
+                    <i class="fas fa-pills"></i> Manage Drugs
+                </a>
+                <a href="/pharmacist">
+                    <i class="fas fa-user-md"></i> Pharmacists
+                </a>
+                <a href="/expireddrugs">
+                    <i class="fas fa-calendar-times"></i> Expired Drugs
+                </a>
+                <a href="/report">
+                    <i class="fas fa-chart-bar"></i> Reports
+                </a>
+                <a href="/settings">
+                    <i class="fas fa-cog"></i> Settings
+                </a>
+                <a href="/logout" class="mt-auto">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-10 main-content">
+                <div class="welcome-section">
+                    <h2>Welcome back, Admin!</h2>
+                    <p>Here's what's happening with your drug verification system today.</p>
+                </div>
+
+                <!-- Statistics Cards -->
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="card stat-card bg-primary text-white">
+                            <div class="card-body d-flex align-items-center">
+                                <div>
+                                    <h6 class="card-subtitle mb-2">Total Drugs</h6>
+                                    <h2 class="card-title mb-0">150</h2>
+                                </div>
+                                <i class="fas fa-pills stats-icon ms-auto"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card stat-card bg-success text-white">
+                            <div class="card-body d-flex align-items-center">
+                                <div>
+                                    <h6 class="card-subtitle mb-2">Active Pharmacists</h6>
+                                    <h2 class="card-title mb-0">25</h2>
+                                </div>
+                                <i class="fas fa-user-md stats-icon ms-auto"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card stat-card bg-warning text-white">
+                            <div class="card-body d-flex align-items-center">
+                                <div>
+                                    <h6 class="card-subtitle mb-2">Expiring Soon</h6>
+                                    <h2 class="card-title mb-0">12</h2>
+                                </div>
+                                <i class="fas fa-clock stats-icon ms-auto"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card stat-card bg-danger text-white">
+                            <div class="card-body d-flex align-items-center">
+                                <div>
+                                    <h6 class="card-subtitle mb-2">Expired Drugs</h6>
+                                    <h2 class="card-title mb-0">8</h2>
+                                </div>
+                                <i class="fas fa-exclamation-triangle stats-icon ms-auto"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Management Section -->
+                
+                <!-- Recent Activity Timeline -->
+                <div class="activity-timeline mt-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">Recent Activities</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="timeline-item">
+                                <h6>New Drug Added</h6>
+                                <p class="text-muted mb-0">Paracetamol 500mg added to inventory</p>
+                                <small class="text-muted">2 hours ago</small>
+                            </div>
+                            <div class="timeline-item">
+                                <h6>New Pharmacist Registered</h6>
+                                <p class="text-muted mb-0">Dr. Sarah Johnson joined the system</p>
+                                <small class="text-muted">5 hours ago</small>
+                            </div>
+                            <div class="timeline-item">
+                                <h6>Expired Drug Removed</h6>
+                                <p class="text-muted mb-0">Amoxicillin 250mg removed from inventory</p>
+                                <small class="text-muted">1 day ago</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="styles/bootstrap/js/bootstrap.min.js"></script>
+    
+</body>
+</html>
